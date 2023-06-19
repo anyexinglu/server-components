@@ -33,7 +33,10 @@ async function BlogIndexPage() {
   );
   return (
     <section>
-      <h1>Welcome to my blog</h1>
+      <>
+        <p>Welcome to my blog</p>
+        <p>Let's start</p>
+      </>
       <div>
         {postSlugs.map((slug) => (
           <Post key={slug} slug={slug} />
@@ -140,7 +143,13 @@ async function renderJSXToClientJSX(jsx) {
         const props = jsx.props;
         const returnedJsx = await Component(props);
         return renderJSXToClientJSX(returnedJsx);
-      } else throw new Error("Not implemented.");
+      } else if (jsx.type === Symbol.for('react.fragment')) {
+        const { children } = jsx.props;
+        return Promise.all(children.map((child) => renderJSXToClientJSX(child)));
+      } else {
+        // console.error('...jsx', jsx, jsx.type === Symbol.for('react.fragment'), jsx.$$typeof, typeof jsx)
+        throw new Error("Current Not implemented.")
+      };
     } else {
       return Object.fromEntries(
         await Promise.all(
@@ -151,5 +160,8 @@ async function renderJSXToClientJSX(jsx) {
         )
       );
     }
-  } else throw new Error("Not implemented");
+  } else {
+    // console.error('...jsx', jsx, typeof jsx)
+    throw new Error("Not implemented");
+  }
 }

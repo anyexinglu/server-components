@@ -7,4 +7,4 @@ fork from https://github.com/reactwg/server-components/discussions/5
 To run this example:
 
 - `npm install` or `yarn`
-- `npm run dev` or `yarn dev`
+- `npm run start` or `yarn start`
